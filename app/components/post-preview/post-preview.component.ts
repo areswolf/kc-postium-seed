@@ -1,4 +1,4 @@
-import { Component, Input } from "@angular/core";
+import { Component, EventEmitter, Input, Output } from "@angular/core";
 
 import { Post } from "../../models/post";
 
@@ -10,6 +10,7 @@ import { Post } from "../../models/post";
 export class PostPreviewComponent {
 
     @Input() post: Post;
+
     
     /*------------------------------------------------------------------------------------------------------------------|
      | ~~~ Red Path ~~~                                                                                                 |
@@ -26,6 +27,11 @@ export class PostPreviewComponent {
      | de eventos; la idea es enviar al componente padre el post sobre el cuál se ha hecho clic. Y puesto que dicho     |
      | clic se realiza en el template de este componente, necesitas, además, un manejador para el mismo.                |
      |------------------------------------------------------------------------------------------------------------------*/
+    @Output() post_selected: EventEmitter<Post> = new EventEmitter();
+
+    notifyPostSelected (post: Post): void {
+        this.post_selected.emit(post);
+    }
 
     plainTextToHtml(text: string): string {
         return `<p>${text.replace(/\n/gi, "</p><p>")}</p>`;
