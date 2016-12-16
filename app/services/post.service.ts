@@ -7,6 +7,7 @@ import { BackendUri } from "./settings.service";
 import { Post } from "../models/post";
 import * as moment from "moment";
 import "moment/locale/es";
+import {Category} from "../models/category";
 
 @Injectable()
 export class PostService {
@@ -93,10 +94,20 @@ export class PostService {
          |   - Filtro por fecha de publicación: publicationDate_lte=x (siendo x la fecha actual)            |
          |   - Ordenación: _sort=publicationDate&_order=DESC                                                |
          |--------------------------------------------------------------------------------------------------*/
-
+        let find = new URLSearchParams();
+        find.set("_sort", "publicationDate");
+        find.set("_order", "DESC");
+        find.set("publicationDate_lte", new Date().getTime().toString());
+        let options = new RequestOptions();
+        options.search = find;
         return this._http
-                   .get(`${this._backendUri}/posts`)
-                   .map((response: Response) => Post.fromJsonToList(response.json()));
+            .get(`${this._backendUri}/posts`, options)
+            .map((response: Response) => {
+                return Post.fromJsonToList(response.json()).filter((post: Post) => {
+                    return post.categories.find((category: Category) => category.id === id) !== undefined;
+                });
+            });
+
     }
 
     getPostDetails(id: number): Observable<Post> {
