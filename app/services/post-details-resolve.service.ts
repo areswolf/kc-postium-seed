@@ -9,8 +9,8 @@ import { PostService } from "./post.service";
 export class PostDetailsResolve implements Resolve<Post> {
 
     constructor(private _postService: PostService) { }
-    
-    resolve(route: ActivatedRouteSnapshot): Observable<Post> {
-        return this._postService.getPostDetails(+route.params["postId"]);
+
+    resolve(route: ActivatedRouteSnapshot): Observable<Post[]> {
+        return route.params["userId"] ? this._postService.getUserPosts(+route.params["userId"]) : this._postService.getPosts();
     }
 }

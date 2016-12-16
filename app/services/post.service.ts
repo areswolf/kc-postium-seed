@@ -1,5 +1,5 @@
 import { Inject, Injectable } from "@angular/core";
-import { Http, Response } from "@angular/http";
+import {Http, Response, URLSearchParams, RequestOptions} from "@angular/http";
 import { Observable } from "rxjs/Observable";
 import "rxjs/add/operator/map";
 
@@ -18,7 +18,7 @@ export class PostService {
     getPosts(): Observable<Post[]> {
 
         /*----------------------------------------------------------------------------------------------|
-         | ~~~ Red Path ~~~                                                                             |
+         | ~~~ Pink Path ~~~                                                                             |
          |----------------------------------------------------------------------------------------------|
          | Pide al servidor que te retorne los posts ordenados de más reciente a menos, teniendo en     |
          | cuenta su fecha de publicación. Filtra también aquellos que aún no están publicados, pues no |
@@ -56,10 +56,19 @@ export class PostService {
          |   - Filtro por fecha de publicación: publicationDate_lte=x (siendo x la fecha actual)        |
          |   - Ordenación: _sort=publicationDate&_order=DESC                                            |
          |----------------------------------------------------------------------------------------------*/
-
+        let search = new URLSearchParams();
+        search.set("author.id", id.toString());
+        search.set("_sort", "publicationDate");
+        search.set("_order", "DESC");
+        search.set("publicationDate_lte", new Date().getTime().toString());
+        let options = new RequestOptions();
+        options.search = search;
         return this._http
-                   .get(`${this._backendUri}/posts`)
-                   .map((response: Response) => Post.fromJsonToList(response.json()));
+            .get(`${this._backendUri}/posts`, options)
+            .map((response: Response) =>
+                Post.fromJsonToList(response.json())
+            );
+
     }
 
     getCategoryPosts(id: number): Observable<Post[]> {
