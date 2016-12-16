@@ -1,5 +1,5 @@
-import { Component, EventEmitter, OnInit, Output } from "@angular/core";
-import { FormGroup } from "@angular/forms";
+import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
+import { FormGroup, FormControl } from "@angular/forms";
 
 import { Post } from "../../models/post";
 import { User } from "../../models/user";
@@ -14,7 +14,10 @@ export class PostFormComponent implements OnInit {
     nowDatetimeLocal: string;
     publicationDateScheduled: boolean = false;
 
+    @Input() post: Post = Post.fromJson({});
+    @Input() editionMode: boolean = false;
     @Output() postSubmitted: EventEmitter<Post> = new EventEmitter();
+    @Output() postCancelled: EventEmitter<any> = new EventEmitter();
 
     ngOnInit(): void {
         this.nowDatetimeLocal = this._formatDateToDatetimeLocal(new Date());
@@ -61,11 +64,19 @@ export class PostFormComponent implements OnInit {
          | nada a lo indicado en el formulario. Por tanto, pon especial atención a que los nombres indicados en los    |
          | distintos elementos del formulario se correspondan con las propiedades de la clase Post.                    |
          |-------------------------------------------------------------------------------------------------------------*/
-
-        let post: Post = Post.fromJson(form.value);
-        post.likes = 0;
-        post.author = User.defaultUser();
-        post.publicationDate = this._getPostPublicationDate(form.value.publicationDate);
+        let post: Post;
+        if (this.editionMode) {
+            post = Object.assign({}, this.post, form.value) as Post;
+        }
+        else {
+            post = Object.assign({}, this.post) as Post;
+            post.likes = [];
+            post.categories = [];
+            post.author = User.defaultUser();
+            post.publicationDate = this._getPostPublicationDate(form.value.publicationDate);
+        }
         this.postSubmitted.emit(post);
     }
+
+
 }
