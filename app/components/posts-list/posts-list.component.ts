@@ -35,8 +35,9 @@ export class PostsListComponent {
 
 
     // Pasamos el post indicado al componente de detalles.
-    mostrarDetalles(post: Post):void {
-        this._router.navigate(["posts", post.id]);
+    mostrarDetalles(post: Post): void {
+        this._router.navigate(["/posts", post.id]);
+
     }
 
 

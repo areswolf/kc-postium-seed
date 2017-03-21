@@ -1,9 +1,9 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
-import { User } from "../../models/user";
 import { Post } from "../../models/post";
-import {PostService} from "../../services/post.service";
+import { User } from "../../models/user";
 import {Category} from "../../models/category";
+
 
 @Component({
     templateUrl: "./app/components/post-details/post-details.component.html",
@@ -15,12 +15,11 @@ export class PostDetailsComponent implements OnInit {
 
     constructor(
         private _router: Router,
-        private _activatedRoute: ActivatedRoute,
-        private _postService: PostService
+        private _activatedRoute: ActivatedRoute
     ) { }
 
     ngOnInit(): void {
-        this._activatedRoute.data.forEach((data: { post: Post}) => this.post = data.post);
+        this._activatedRoute.data.forEach((data: { post: Post }) => this.post = data.post);
         window.scrollTo(0, 0);
     }
 
@@ -40,7 +39,6 @@ export class PostDetailsComponent implements OnInit {
         this._router.navigate(["/posts/users", author.id]);
     }
 
-
     /*--------------------------------------------------------------------------------------------------------------------|
      | ~~~ Yellow Path ~~~                                                                                                |
      |--------------------------------------------------------------------------------------------------------------------|
@@ -51,4 +49,5 @@ export class PostDetailsComponent implements OnInit {
     goToCategoryPosts(category: Category): void {
         this._router.navigate(["/posts/categories", category.id]);
     }
+
 }

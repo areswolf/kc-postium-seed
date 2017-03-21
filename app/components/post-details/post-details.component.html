@@ -1,26 +1,28 @@
 <div class="metadata">
-    <div class="avatar">
-        <img [src]="post.author.avatar">
+    <div class="u-pull-left">
+        <div class="avatar">
+            <img [src]="post.author.avatar">
+        </div>
+        <div class="author">
+            <!--
+            |-----------------------------------------------------------------|
+            | Red Path                                                        |
+            |-----------------------------------------------------------------|
+            | Un clic sobre el autor debería navegar a su colección de posts. |
+            |-----------------------------------------------------------------|
+            -->
+            <span class="name blink-font" (click)="goToAuthorPosts(post.author)">{{ post.author.name }}</span>
+            <!--
+            |-------------------------------------------------------------------------------|
+            | Blue Path                                                                     |
+            |-------------------------------------------------------------------------------|
+            | Una vez tengas creado el pipe FromNowPipe, úsalo con la fecha de publicación. |
+            |-------------------------------------------------------------------------------|
+            -->
+            <span class="date">{{ post.publicationDate | fromnow }}</span>
+        </div>
     </div>
-    <div class="author">
-        <!--
-        |-----------------------------------------------------------------|
-        | Red Path                                                        |
-        |-----------------------------------------------------------------|
-        | Un clic sobre el autor debería navegar a su colección de posts. |
-        |-----------------------------------------------------------------|
-        -->
-        <span class="name blink-font" (click)="goToAuthorPosts(post.author)">{{ post.author.name }}</span>
 
-        <!--
-        |-------------------------------------------------------------------------------|
-        | Blue Path                                                                     |
-        |-------------------------------------------------------------------------------|
-        | Una vez tengas creado el pipe FromNowPipe, úsalo con la fecha de publicación. |
-        |-------------------------------------------------------------------------------|
-        -->
-        <span class="date">{{ post.publicationDate | fromnow }}</span>
-    </div>
 </div>
 <div class="post">
     <h3>{{ post.title }}</h3>
@@ -37,6 +39,6 @@
     |--------------------------------------------------------------------------|
     -->
     <category-box [categories]="post.categories"
-                  categorySelected)="goToCategoryPosts($event)">
+                  (categorySelected)="goToCategoryPosts($event)">
     </category-box>
 </div>

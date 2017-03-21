@@ -5,8 +5,9 @@ import { Post } from "../../models/post";
 
 @Component({
     templateUrl: "./app/components/news/news.component.html"
+
 })
-export class NewsComponent implements OnInit {
+export class PostsViewComponent implements OnInit {
 
     posts: Post[];
 

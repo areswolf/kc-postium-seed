@@ -251,6 +251,22 @@
       ],
       "likes": 4,
       "id": 10
+    },
+    {
+      "title": "Historia",
+      "intro": "My historia",
+      "body": "Esta es mi historia",
+      "publicationDate": 1490092980000,
+      "categories": [],
+      "author": {
+        "id": 1,
+        "name": "KeepCoder",
+        "username": "keepcoder",
+        "email": "keepcoder@postium.com",
+        "avatar": "resources/images/keepcoder.jpg"
+      },
+      "likes": 0,
+      "id": 11
     }
   ],
   "categories": [

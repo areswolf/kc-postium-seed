@@ -22,6 +22,7 @@
             placeholder="Título"
             class="u-full-width"
             [(ngModel)]="post.title"
+
             required>
     <!-- Intro -->
     <!--
@@ -38,6 +39,7 @@
             class="u-full-width georgia-font"
             [(ngModel)]="post.intro"
             autogrow
+
             required></textarea>
     <!-- Body -->
     <!--
@@ -53,6 +55,7 @@
             placeholder="Cuenta tu historia"
             class="u-full-width georgia-font"
             [(ngModel)]="post.body"
+
             autogrow></textarea>
     <!-- Publication date -->
     <div *ngIf="!editionMode">
@@ -88,7 +91,7 @@
     <button
             type="submit"
             class="button-primary u-pull-right"
-            [disabled]="postRef.invalid">Aceptar</button>
+            [disabled]="!postRef.valid">Aceptar</button>
 
 </form>
 

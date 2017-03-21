@@ -10,8 +10,8 @@
         | Un clic sobre el autor debería enviar un evento al componente padre. |
         |----------------------------------------------------------------------|
         -->
-        <div class="author">
-            <span class="name blink-font" (click)="emitAuthorSelected(post.author)">{{ post.author.name }}</span>
+
+        <span class="name blink-font" (click)="emitAuthorSelected(post.author)">{{ post.author.name }}</span>
         <!--
         |-------------------------------------------------------------------------------|
         | Blue Path                                                                     |
@@ -23,6 +23,7 @@
 
     </div>
 </div>
+
 <!--
 |---------------------------------------------------------------------|
 | Green Path                                                          |
@@ -30,8 +31,11 @@
 | Un clic sobre el post debería enviar un evento al componente padre. |
 |---------------------------------------------------------------------|
 -->
-<div class="post" (click)="emitAuthorSelected(post)">
+
+<div class="post" (click)="emitPostSelection(post)">
     <h3>{{ post.title }}</h3>
     <img *ngIf="post.media" [src]="post.media" class="u-max-full-width">
     <div class="html-text" [innerHtml]="plainTextToHtml(post.intro)"></div>
 </div>
+
+

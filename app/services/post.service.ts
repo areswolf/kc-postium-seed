@@ -17,7 +17,6 @@ export class PostService {
         @Inject(BackendUri) private _backendUri) { }
 
     getPosts(): Observable<Post[]> {
-
         /*----------------------------------------------------------------------------------------------|
          | ~~~ Pink Path ~~~                                                                             |
          |----------------------------------------------------------------------------------------------|
@@ -32,11 +31,19 @@ export class PostService {
          |   - Filtro por fecha de publicación: publicationDate_lte=x (siendo x la fecha actual)        |
          |   - Ordenación: _sort=publicationDate&_order=DESC                                            |
          |----------------------------------------------------------------------------------------------*/
-        var fecha_actual = moment();
+        let search = new URLSearchParams();
+        let options = new RequestOptions();
 
+        //debugger;
+
+        search.set("_sort", "publicationDate");
+        search.set("_order", "DESC");
+        search.set("publicationDate_lte", new Date().getTime().toString());
+
+        options.search = search;
         return this._http
-                   .get(`${this._backendUri}/posts?_sort=publicationDate&_order=DESC&publicationDate_lte=${fecha_actual}`)
-                   .map((response: Response) => Post.fromJsonToList(response.json()));
+            .get(`${this._backendUri}/posts`, options)
+            .map((response: Response) => Post.fromJsonToList(response.json()));
     }
 
     getUserPosts(id: number): Observable<Post[]> {
@@ -57,11 +64,14 @@ export class PostService {
          |   - Filtro por fecha de publicación: publicationDate_lte=x (siendo x la fecha actual)        |
          |   - Ordenación: _sort=publicationDate&_order=DESC                                            |
          |----------------------------------------------------------------------------------------------*/
+
+
         let search = new URLSearchParams();
         search.set("author.id", id.toString());
         search.set("_sort", "publicationDate");
         search.set("_order", "DESC");
         search.set("publicationDate_lte", new Date().getTime().toString());
+        //search.set("publicationDate_lte", new moment().valueOf().toString());
         let options = new RequestOptions();
         options.search = search;
         return this._http
@@ -98,16 +108,19 @@ export class PostService {
         find.set("_sort", "publicationDate");
         find.set("_order", "DESC");
         find.set("publicationDate_lte", new Date().getTime().toString());
+        //find.set("publicationDate_lte", new moment().valueOf().toString());
         let options = new RequestOptions();
         options.search = find;
         return this._http
             .get(`${this._backendUri}/posts`, options)
             .map((response: Response) => {
-                return Post.fromJsonToList(response.json()).filter((post: Post) => {
-                    return post.categories.find((category: Category) => category.id === id) !== undefined;
+                let posts: Post[] = Post.fromJsonToList(response.json());
+                return posts.filter((post: Post) => {
+                    return post.categories.find(
+                            (category: Category) => category.id === id
+                        ) !== undefined;
                 });
             });
-
     }
 
     getPostDetails(id: number): Observable<Post> {

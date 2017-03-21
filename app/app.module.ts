@@ -19,7 +19,7 @@ import { CategoryBoxComponent } from "./components/category-box/category-box.com
 import { CategoryPostsComponent } from "./components/category-posts/category-posts.component";
 import { CategoryService } from "./services/category.service";
 import { HeaderBarComponent } from "./components/header-bar/header-bar.component";
-import { NewsComponent } from "./components/news/news.component";
+import { PostsViewComponent } from "./components/news/news.component";
 import { NewStoryComponent } from "./components/new-story/new-story.component";
 import { PostDetailsComponent } from "./components/post-details/post-details.component";
 import { PostDetailsResolve } from "./services/post-details-resolve.service";
@@ -51,7 +51,7 @@ import { UserPostsComponent } from "./components/user-posts/user-posts.component
         CategoryBoxComponent,
         CategoryPostsComponent,
         HeaderBarComponent,
-        NewsComponent,
+        PostsViewComponent,
         NewStoryComponent,
         PostDetailsComponent,
         PostPreviewComponent,
